@@ -1,0 +1,123 @@
+/* resume.css */
+
+body {
+    background-color: #f4f4f4; /* Light gray background */
+    color: #333; /* Dark gray text color */
+    font-family: Arial, sans-serif; /* Default font */
+    font-size: 16px; /* Base font size */
+    line-height: 1.6; /* Improves readability */
+    margin: 20px; /* Adds some margin around the entire resume */
+}
+
+.container {
+    background-color: #fff; /* White background for the main content area */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #007bff; /* Blue color for the main name */
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.contact-info {
+    font-size: 0.9em;
+    color: #555;
+}
+
+h2 {
+    color: #28a745; /* Green color for section headings */
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.company-name, .institution-name {
+    font-style: italic;
+    color: #777;
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+
+.experience-item, .education-item, .project-item {
+    margin-bottom: 15px;
+}
+
+.project-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.project-link a:hover {
+    text-decoration: underline;
+}
+
+.skills-list {
+    list-style: none; /* Remove default browser bullets */
+    padding-left: 0; /* Remove default padding */
+}
+
+.skills-list li::before {
+    content: "\2022"; /* Unicode character for a bullet point */
+    color: #007bff;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.skills-list li {
+    padding-left: 1em;
+    margin-bottom: 5px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 0.8em;
+    color: #777;
+}
+
+/* Pseudo-classes and Pseudo-elements */
+
+/* Using :hover for a subtle effect on section headings */
+.section h2:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Removed the styling for the first letter */
+/*
+.section p::first-letter {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+}
+*/
+
+/* Using ::before on experience items for a visual separator */
+.experience-item::before {
+    content: "";
+    display: block;
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.experience-item:first-child::before {
+    border-top: none; /* Remove the separator for the first item */
+    margin-top: 0;
+}
