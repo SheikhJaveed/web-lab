@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f0f8ff;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, datalist {
+      padding: 8px;
+      width: 300px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3367d6;
+    }
+  </style>
+</head>
+<body>
+  <h2>Student Registration Form</h2>
+  <form>
+    
+    <!-- Name -->
+    <label for="name">Name *</label>
+    <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+" title="Only alphabets allowed" />
+
+    <!-- Email -->
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" required placeholder="please enter valid email address" />
+
+    <!-- Phone -->
+    <label for="phone">Phone *</label>
+    <input type="tel" id="phone" name="phone" required pattern="\d{3}-\d{3}-\d{4}" placeholder="080-555-5555" title="Format: 080-555-5555" />
+
+    <!-- Semester -->
+    <label for="semester">Semester (1–8) *</label>
+    <input type="number" id="semester" name="semester" min="1" max="8" required />
+
+    <!-- Branch -->
+    <label for="branch">Branch *</label>
+    <input list="branches" id="branch" name="branch" required />
+    <datalist id="branches">
+      <option value="Computer Science">
+      <option value="Electronics and Communication">
+      <option value="Mechanical">
+      <option value="Civil">
+      <option value="Information Science">
+    </datalist>
+
+    <!-- Website -->
+    <label for="website">Website *</label>
+    <input type="url" id="website" name="website" required pattern="http://.*" placeholder="http://your-site.com" title="Must start with http://" />
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
