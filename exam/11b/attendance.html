@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Form</title>
+</head>
+<body>
+  <h2>Enter Student Attendance Details</h2>
+  <form method="POST" action="/add-attendance">
+    Student ID: <input type="text" name="student_id" required><br><br>
+    Name: <input type="text" name="name" required><br><br>
+    Course: <input type="text" name="course" required><br><br>
+    Total Classes Held: <input type="number" name="total_attendance" required><br><br>
+    Classes Attended: <input type="number" name="classes_attended" required><br><br>
+    <button type="submit">Submit Attendance</button>
+  </form>
+  <br>
+  <a href="/low-attendance">View Students with Attendance &lt; 75%</a>
+</body>
+</html>

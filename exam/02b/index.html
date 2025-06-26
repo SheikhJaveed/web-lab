@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Fee Form</title>
 </head>
 <body>
-    <form method="POST" action="/">
-        USN: <input type="text" name="usn" required /><br><br>
-        Name: <input type="text" name="name" required /><br><br>
-        Fees Paid:
-        <input type="radio" name="fees_paid" value="true" required /> Yes
-        <input type="radio" name="fees_paid" value="false"/>No
-        <br><br>
-
+    <h2>Enter Student Details</h2>
+    <form method="POST" action="/submit">
+        Name: <input type="text" name="name" required><br><br>
+        USN: <input type="text" name="usn" required><br><br>
+        Semester: <input type="number" name="semester" required><br><br>
+        Exam Fee: <input type="number" name="exam_fee"><br><br>
         <button type="submit">Submit</button>
-    </form> 
-    <a href="/exam-fee">List of students who have not paid fees</a>
+    </form>
+    <br>
+    <a href="/delete-unpaid">Delete Students with No Exam Fee</a>
 </body>
 </html>

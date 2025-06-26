@@ -1,16 +1,15 @@
 const express = require("express");
 const path = require("path");
-const { MongoClient } = require("mongodb");
 const bodyParser = require("body-parser");
+const { MongoClient } = require("mongodb");
 
 const app = express();
 const PORT = 3000;
 
 const url = "mongodb://localhost:27017";
-const dbName = "collegeDB";
+const dbName = "ExamDB";
 let studentCollection;
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -25,46 +24,44 @@ MongoClient.connect(url, { useUnifiedTopology: true })
 
 // Serve the HTML form
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "exam.html"));
 });
 
-// Handle form submission
-app.post("/submit", async (req, res) => {
-  const { name, usn, semester, exam_fee } = req.body;
+// POST: Add student record
+app.post("/add-student", async (req, res) => {
+  const { student_id, name, subject, marks } = req.body;
+  const numericMarks = parseInt(marks);
 
   const student = {
+    student_id,
     name,
-    usn,
-    semester: parseInt(semester),
-    exam_fee: exam_fee ? parseFloat(exam_fee) : 0,
+    subject,
+    marks: numericMarks,
+    eligibility_status: numericMarks < 20 ? "Not Eligible" : "Eligible"
   };
 
   try {
     await studentCollection.insertOne(student);
-    res.redirect("/");
+    res.json({ message: "Student record added successfully." });
   } catch (err) {
-    res.status(500).send("Error saving student details.");
+    res.status(500).json({ error: "Failed to add student record." });
   }
 });
 
-// Delete students with no exam fee
-app.get("/delete-unpaid", async (req, res) => {
+// GET: Show students who are not eligible
+app.get("/not-eligible", async (req, res) => {
   try {
-    const result = await studentCollection.deleteMany({
-      $or: [
-        { exam_fee: { $eq: 0 } },
-        { exam_fee: { $exists: false } },
-        { exam_fee: null }
-      ]
-    });
+    const students = await studentCollection
+      .find({ eligibility_status: "Not Eligible" })
+      .toArray();
 
-    res.send(`${result.deletedCount} student(s) without exam fee deleted.`);
+    res.json(students);
   } catch (err) {
-    res.status(500).send("Error deleting unpaid students.");
+    res.status(500).json({ error: "Error fetching not eligible students." });
   }
 });
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

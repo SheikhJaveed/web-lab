@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admit Patient</title>
+</head>
+<body>
+    <h2>Admit Patient to Hospital</h2>
+    <form method="POST" action="/admit-patient">
+        Hospital ID: <input type="text" name="hospital_id" required><br><br>
+        <button type="submit">Admit Patient</button>
+    </form>
+    <br>
+    <a href="/hospital-form">Back to Add Hospital</a><br>
+    <a href="/low-beds">View Hospitals with < 10 Available Beds (JSON)</a>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+</head>
+<body>
+    <h2>Enter Product Details</h2>
+    <form method="POST" action="/add-product">
+        Product ID: <input type="text" name="product_id" required><br><br>
+        Name: <input type="text" name="name" required><br><br>
+        Price: <input type="number" name="price" required><br><br>
+        Discount (%): <input type="number" name="discount" required><br><br>
+        Stock: <input type="number" name="stock" required><br><br>
+        <button type="submit">Add Product</button>
+    </form>
+    <br>
+    <a href="/cheap-products">View Products with Final Price < 1000</a>
+</body>
+</html>

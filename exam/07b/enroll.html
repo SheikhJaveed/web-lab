@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Enrollment</title>
+</head>
+<body>
+    <h2>Enroll in a Course</h2>
+    <form method="POST" action="/enroll">
+        Student ID: <input type="text" name="student_id" required><br><br>
+        Name: <input type="text" name="name" required><br><br>
+        Course Name: <input type="text" name="course_name" required><br><br>
+        Duration: <input type="text" name="duration" required><br><br>
+        Status: <input type="text" name="status" required><br><br>
+        <button type="submit">Submit Enrollment</button>
+    </form>
+    <br>
+    <a href="/update-form">Update Enrollment Status</a><br>
+    <a href="/active-enrollments">View Active Enrollments</a>
+</body>
+</html>

@@ -1,67 +1,87 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const { MongoClient, ObjectId } = require("mongodb");
 const path = require("path");
+const bodyParser = require("body-parser");
 
 const app = express();
+const PORT = 3000;
 
-// Connect to MongoDB
-mongoose
-  .connect("mongodb://localhost:27017/studentDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error(err));
+const url = "mongodb://localhost:27017";
+const dbName = "complaintDB";
+let db, complaintsCollection;
 
-// Define Student Schema
-const studentSchema = new mongoose.Schema({
-  usn: String,
-  name: String,
-  subject_code: String,
-  cie_marks: Number,
-});
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-const Student = mongoose.model("Student", studentSchema);
-
-// Middleware to parse URL-encoded form data
-app.use(express.urlencoded({ extended: true }));
-
-// Serve the HTML form file
+// Serve HTML form
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Handle form submission
-app.post("/", async (req, res) => {
-  const { usn, name, subject_code, cie_marks } = req.body;
-  const student = new Student({
-    usn,
-    name,
-    subject_code,
-    cie_marks: parseInt(cie_marks),
-  });
+// Connect to MongoDB and setup collection
+MongoClient.connect(url, { useUnifiedTopology: true })
+  .then(client => {
+    console.log("MongoDB connected");
+    db = client.db(dbName);
+    complaintsCollection = db.collection("complaints");
+  })
+  .catch(err => console.error(err));
+
+app.get("/update-form", (req, res) => {
+  res.sendFile(path.join(__dirname, "update.html"));
+});
+
+// POST: Submit new complaint
+app.post("/submit", async (req, res) => {
+  const { complaint_id, user_name, issue } = req.body;
 
   try {
-    await student.save();
-    res.redirect("/"); // redirect back to form
+    await complaintsCollection.insertOne({
+      complaint_id,
+      user_name,
+      issue,
+      status: "Pending",
+    });
+    res.redirect("/");
   } catch (err) {
-    res.status(500).send("Error saving student.");
+    res.status(500).send("Error submitting complaint.");
   }
 });
 
-// Show students with CIE < 20
-app.get("/low-cie", async (req, res) => {
-  try {
-    const students = await Student.find({ cie_marks: { $lt: 20 } });
+// PUT: Update complaint status
+// POST route that simulates PUT (no JS)
+app.post("/update-status", async (req, res) => {
+  const { complaint_id, status } = req.body;
 
-    res.json(students);
+  try {
+    const result = await complaintsCollection.updateOne(
+      { complaint_id },
+      { $set: { status } }
+    );
+
+    if (result.modifiedCount === 0) {
+      res.send("Complaint not found or status unchanged.");
+    } else {
+      res.send("Complaint status updated successfully.");
+    }
   } catch (err) {
-    res.status(500).send("Error fetching students.");
+    res.status(500).send("Error updating complaint.");
+  }
+});
+
+
+// GET: Retrieve all pending complaints
+app.get("/pending", async (req, res) => {
+  try {
+    const pendingComplaints = await complaintsCollection.find({ status: "Pending" }).toArray();
+    res.json(pendingComplaints);
+  } catch (err) {
+    res.status(500).send("Error retrieving complaints.");
   }
 });
 
 // Start server
-const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
